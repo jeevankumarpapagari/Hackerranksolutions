@@ -97,6 +97,19 @@ struct node* deleteNode(struct node *root,int value)
     }
 }
 
+struct node* searchElement(struct node *root,int value)
+{
+    if(root == NULL)    return root;
+    struct node *ptr = root;
+    while(ptr)
+    {
+        if(value == ptr->data)      return ptr;
+        else if(value < ptr->data)  ptr = ptr->left;
+        else                        ptr = ptr->right; 
+    }
+    return NULL;
+}
+
 int main()
 {
     int n,i,newValue;
@@ -112,5 +125,9 @@ int main()
     scanf("%d",&newValue);
     root = deleteNode(root,newValue);
     inOrder(root);
+    printf("\nWhich element you want to search? Answer: ");
+    scanf("%d",&newValue);
+    if(searchElement(root,newValue)->data == 0)     printf("Element %d was not found",newValue);
+    else                                            printf("Element %d was found",newValue);
     return 0;
 }
