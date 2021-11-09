@@ -5,52 +5,38 @@
 
 long min(long x,long y)
 {
-    return x < y ? x : y;
+    return x<y ? x : y;
 }
 
-long minimum(long a,long b,long c)
+long minOfThree(long x,long y,long z)
 {
-    return min(min(a,b),c);
+    return min(x,min(y,z));
 }
 
 int main() 
 {
-    long n;
-    scanf("%ld",&n);
+    int len1;
+    scanf("%d",&len1);
+    int arr[len1+1], i;
+    for(i=1;i<=len1;i++)
+        scanf("%d",&arr[i]);
     
-    long a[n+1], i;
-    for(i=1;i<=n;i++)
-        scanf("%ld",&a[i]);
-    
-    long m;
-    scanf("%ld",&m);
-    
-    long b[m+1], j;
-    for(j=1;j<=m;j++)
-        scanf("%ld",&b[j]);
+    int len2;
+    scanf("%d",&len2);
+    int brr[len2+1], j;
+    for(j=1;j<=len2;j++)
+        scanf("%d",&brr[j]);
     
     long x,y,z;
     scanf("%ld %ld %ld",&x,&y,&z);
     
-    long grid[n+1][m+1];
+    long crr[len1+1][len2+1];
     
-    for(i=0;i<=n;i++)
-    {
-        for(j=0;j<=m;j++)
-        {
-            if(i == 0)              grid[i][j] = j*x;
-            else if(j == 0)         grid[i][j] = i*y;
-            else if(a[i] == b[j])   grid[i][j] = grid[i-1][j-1];
-            else                    grid[i][j] = minimum(x+grid[i][j-1], y+grid[i-1][j], z+grid[i-1][j-1]);
-        }
-    }
+    for(i=0;i<=len1;i++)
+        for(j=0;j<=len2;j++)
+            crr[i][j] = i==0 ? j*x : j==0 ? i*y : arr[i]==brr[j] ? crr[i-1][j-1] : minOfThree(x+crr[i][j-1], z+crr[i-1][j-1], y+crr[i-1][j]);
     
-    /*for(i=0;i<=n;i++)
-    {
-        for(j=0;j<=m;j++)
-            printf("%d\t",grid[i][j]);
-        printf("\n");
-    }*/
-    printf("%ld",grid[n][m]);
+    printf("%ld",crr[len1][len2]);
+    
     return 0;
 }
