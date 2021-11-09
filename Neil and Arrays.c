@@ -15,18 +15,12 @@ int main() {
         for(i=0;i<n;i++){
             scanf("%d",&arr[i]);
         }
-       up=0;down=0;
-        for(i=n-2;i>=0;i--){
-            if(i==n-2)
-            {
-                up=up+arr[n-2]-1;
-                down=down+arr[n-1]-1;
-            }
-            else{
+       up=arr[n-2]-1;down=arr[n-1]-1;
+        for(i=n-3;i>=0;i--)
+        {
                 temp=up;
                 up=max(arr[i]-1+down,arr[i]-arr[i+1]+up);
                 down=max(arr[i+1]-1+temp,down);
-            }
         }
         printf("%d\n",max(up,down));
     }
