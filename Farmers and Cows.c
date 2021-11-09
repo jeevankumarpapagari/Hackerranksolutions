@@ -12,11 +12,11 @@ int search(int a[],int n,int k)
     while(l<=h)
     {
       int mid=(l+h)/2;
-      if(a[mid]==k)return mid;
+      if(a[mid]==k)return 1;
       else if(a[mid]<k) l=mid+1;
        else h=mid-1;
     }
-    return -1;
+    return 0;
 }
 int main() {
     int n;
@@ -28,19 +28,12 @@ int main() {
     int c=0;
     for(int i=0;i<n;i++)
     {
-        for(int j=0;j<n;j++)
+        for(int j=i+1;j<n;j++)
         {
-            if(i!=j&&a[i]>a[j]){
-            int k=a[i]-a[j];
-                int x=search(a,n,k);
-            if(x>=0&&x!=j)
-            {
-             // printf("%d %d\n",a[i],a[j]);
-               c++; 
-            }
+            if(search(a,n,a[i]+a[j]))
+                c++;
         }
     }
-    }
-        printf("%d",c/2);
+        printf("%d",c);
     return 0;
 }
