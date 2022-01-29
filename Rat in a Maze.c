@@ -1,67 +1,71 @@
-bool isSafe(int maze[N][N], int x, int y) 
-{ 
-     // if (x,y outside maze) return false 
-     if(x>=0 && x<N && y>=0 && y<N && maze[x][y]==1) 
-          return true; 
-     else      
-          return false; 
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+int n;
+
+bool isSafeOfMazePosition(int maze[n][n],int r,int c)
+{
+    if(r>=0 && r<n && c>=0 && c<n && maze[r][c]==1)
+        return true;
+    else
+        return false;
 }
 
-void printSolution(int sol[N][N]) 
-{ 
-    for (int i = 0; i < N; i++) 
-    { 
-        for (int j = 0; j < N; j++) 
-            printf(" %d ", sol[i][j]); 
-        printf("\n"); 
-    } 
-}
-
-bool solveMaze(int maze[N][N], int x, int y, int sol[N][N]) 
-{ 
-    if(x == N-1 && y == N-1) 
-    { 
-        sol[x][y] = 1; 
-        return true; 
-    } 
-    // check if maze[x][y] is valid 
-    if(isSafe(maze, x, y) == true) 
-    { 
-        sol[x][y] = 1; 
-
-          // move forward in x direction
-        if (solveMaze(maze, x+1, y, sol) == true) 
+bool isMazeSolved(int maze[n][n],int r,int c,int sol[n][n])
+{
+    if(r==n-1 && c==n-1)
+    {
+        sol[r][c] = 1;
+        return true;
+    }
+    
+    if(isSafeOfMazePosition(maze,r,c))
+    {
+        sol[r][c] = 1;
+        //Forward direction
+        if(isMazeSolved(maze,r,c+1,sol))
             return true;
+        //Downward direction
+        if(isMazeSolved(maze,r+1,c,sol))
+            return true;
+        sol[r][c] = 0;
+        return false;
+    }
+    
+    return false;
+}
 
-      // if moving in x direction doesn't give solution then move down in y direction
-      if (solveMaze(maze, x, y+1, sol) == true) 
-           return true; 
-
-      // BACKTRACK,
-      // unmark x,y as part of solution path
-      sol[x][y] = 0; 
-      return false; 
-    }    
-    return false; 
-} 
-
+void printSolution(int sol[n][n])
+{
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            printf("%d ",sol[i][j]);
+        printf("\n");
+    }
+}
 
 int main() 
-{ 
-    int maze[N][N]  =  { {1, 0, 0, 0}, 
-        {1, 1, 0, 1}, 
-        {0, 1, 0, 0}, 
-        {1, 1, 1, 1} 
-    }; 
-
-    int sol[N][N] = { {0, 0, 0, 0}, 
-        {0, 0, 0, 0}, 
-        {0, 0, 0, 0}, 
-        {0, 0, 0, 0} 
-    };
-    if (solveMaze(maze, 0, 0, sol) == false)
-	printf("Solution doesn't exist"); 
+{
+    scanf("%d",&n);
+    
+    int maze[n][n], sol[n][n], i, j;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<n;j++)
+        {
+            scanf("%d",&maze[i][j]);
+            sol[i][j] = 0;
+        }
+    }
+    
+    if(isMazeSolved(maze,0,0,sol))
+        printSolution(sol);
     else
-	printSolution(sol);
-    return 0; 
-} 
+        printf("Solution doesnot exist");
+    
+    return 0;
+}
