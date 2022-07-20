@@ -1,31 +1,60 @@
-#include <cmath>
-#include <cstdio>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-using namespace std;
+/*
+
+You are given a maze with N cells. Each cell may have multiple entry points but not more than one exit (ie. entry/exit points are unidirectional doors like valves). The cells are named with an integer value from 0 to N-1. You need to find the following :
+
+find Maximum number of entry points (incoming edges) for any cell in the maze
+
+Note: Aim for O(N) solution.
+
+INPUT FORMAT
+First line has the number of cells N
+
+Second line has list of N values of the edge[] array. edge[i] contains the cell number that can be reached from of cell ‘i’ in one step. edge[i] is -1 if the ‘i’th cell doesn’t have an exit.
+
+OUTPUT FORMAT
+Print the index of node with max entry points
+
+Sample Input 0
+
+5
+4 4 4 4 -1
+
+Sample Output 0
+
+4
+
+*/
 
 
-int main() {
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() 
+{
     int n;
-    cin>>n;
-    int a[n];
-    int b[n];
-    for(int i=0;i<n;i++){
-        b[i]=0;
-        cin>>a[i];
-    }
-    for(int i=0;i<n;i++)
+    scanf("%d",&n);
+    
+    int nodes[n], entryPoints[n], i;
+    for(i=0;i<n;i++)
     {
-        b[a[i]]++;
+        scanf("%d",&nodes[i]);
+        entryPoints[i] = 0;
     }
-    int m=0,j=0;
-    for(int i=0;i<n;i++){
-        if(b[i]>m){
-            m=b[i];
-            j=i;
+    
+    for(i=0;i<n;i++)
+        entryPoints[nodes[i]]++;
+    
+    int max = 0, nodeValue = 0;
+    for(i=0;i<n;i++)
+    {
+        if(entryPoints[i] > max)
+        {
+            max = entryPoints[i];
+            nodeValue = i;
         }
     }
-    printf("%d",j);
+    printf("%d",nodeValue);
     return 0;
 }
